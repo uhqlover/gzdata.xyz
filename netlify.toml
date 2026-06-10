@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+  from = "/senderid"
+  to   = "/senderid.html"
+  status = 200
+
+[[redirects]]
+  from = "/yayko"
+  to   = "/yayko.html"
+  status = 200
+
+[[redirects]]
+  from = "/guzze"
+  to   = "/guzze.html"
+  status = 200

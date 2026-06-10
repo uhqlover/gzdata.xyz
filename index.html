@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gz Data - Ton profil en ligne</title>
+    <meta name="description"
+        content="GZ DATA — Découvrez les profils de la team et rejoignez la communauté Discord. Obtenez votre propre page pour seulement 15€.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div class="bg-effects">
+        <div class="stars-layer" id="stars1"></div>
+        <div class="stars-layer" id="stars2"></div>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <canvas id="particles-canvas"></canvas>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="nav-logo-dot"></span>
+            <span class="nav-logo-text">gz<span class="nav-logo-accent">data</span>.xyz</span>
+        </div>
+        <a href="https://discord.gg/gzdata" target="_blank" rel="noopener" class="discord-btn" id="discord-join-btn">
+            <i class="fa-brands fa-discord"></i>
+            <span>Rejoindre le Discord</span>
+            <span class="discord-pulse"></span>
+        </a>
+    </nav>
+
+    <main class="container">
+
+        <header class="header">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                <span>Community Hub</span>
+            </div>
+            <h1 class="logo">
+                GZ<span class="logo-accent"> DATA</span>
+            </h1>
+            <p class="subtitle">Cherchez un profil pour découvrir son univers</p>
+            <div class="header-divider"></div>
+        </header>
+
+        <section class="profiles-grid" aria-label="Sélection de profil">
+
+            <article class="card" id="card-senderid" aria-labelledby="profile-senderid-name">
+                <div class="card-glow"></div>
+                <div class="card-inner">
+                    <div class="avatar-ring">
+                        <div class="ring-spin"></div>
+                        <div class="avatar-photo">
+                            <img src="senderid.webp" alt="Avatar de Senderid">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h2 class="card-name" id="profile-senderid-name">Senderid</h2>
+                        <span class="card-role">
+                            <span class="role-dot"></span>Flocko
+                        </span>
+                    </div>
+                    <a href="senderid/senderid.html" class="card-cta card-link" aria-label="Voir le profil de Senderid">
+    Voir le profil <i class="fa-solid fa-arrow-right"></i>
+</a>
+                </div>
+            </article>
+
+            <article class="card" id="card-guzze" aria-labelledby="profile-guzze-name">
+                <div class="card-glow"></div>
+                <div class="card-inner">
+                    <div class="avatar-ring">
+                        <div class="ring-spin"></div>
+                        <div class="avatar-photo">
+                            <img src="guzze.jpg" alt="Avatar de Guzze">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h2 class="card-name" id="profile-guzze-name">Guzze</h2>
+                        <span class="card-role">
+                            <span class="role-dot"></span>Creator
+                        </span>
+                    </div>
+                    <a href="guzze/guzze.html" class="card-cta card-link" aria-label="Voir le profil de Guzze">
+    Voir le profil <i class="fa-solid fa-arrow-right"></i>
+</a>
+                </div>
+            </article>
+
+            <article class="card" id="card-yayko" aria-labelledby="profile-yayko-name">
+                <div class="card-glow"></div>
+                <div class="card-inner">
+                    <div class="avatar-ring">
+                        <div class="ring-spin"></div>
+                        <div class="avatar-photo">
+                            <img src="yayko.png" alt="Avatar de Yayko">
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h2 class="card-name" id="profile-yayko-name">Yayko</h2>
+                        <span class="card-role">
+                            <span class="role-dot"></span>Larp
+                        </span>
+                    </div>
+                    <a href="yayko/yayko.html" class="card-cta card-link" aria-label="Voir le profil de Yayko">
+    Voir le profil <i class="fa-solid fa-arrow-right"></i>
+</a>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="join-section" id="join-section" aria-label="Obtenir sa page">
+
+            <div class="join-header">
+                <div class="join-badge">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>Rejoins la team</span>
+                </div>
+                <h2 class="join-title">Obtiens ta propre page <span class="join-title-accent">sur gzdata.xyz</span></h2>
+                <p class="join-subtitle">
+                    Tu crées ta page, on l'héberge. Envoie-nous ton fichier HTML/CSS et on te met en ligne sous
+                    <strong>gzdata.xyz/tonpseudo</strong>.<br>
+                    Accès unique — <strong class="price-highlight">15€</strong> — paiement unique, page à vie.
+                </p>
+            </div>
+
+            <div class="join-perks">
+                <div class="perk">
+                    <span class="perk-icon"><i class="fa-solid fa-file-code"></i></span>
+                    <span class="perk-text">Tu fournis ton fichier</span>
+                </div>
+                <div class="perk">
+                    <span class="perk-icon"><i class="fa-solid fa-link"></i></span>
+                    <span class="perk-text">URL gzdata.xyz/tonpseudo</span>
+                </div>
+                <div class="perk">
+                    <span class="perk-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <span class="perk-text">Mise en ligne rapide</span>
+                </div>
+                <div class="perk">
+                    <span class="perk-icon"><i class="fa-solid fa-infinity"></i></span>
+                    <span class="perk-text">Hébergement à vie</span>
+                </div>
+            </div>
+
+            <form class="join-form" id="join-form" novalidate>
+
+                <div class="form-steps">
+                    <div class="form-step">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Remplis le formulaire</span>
+                    </div>
+                    <div class="step-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                    <div class="form-step">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Paie 15€ sur Discord</span>
+                    </div>
+                    <div class="step-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                    <div class="form-step">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Ta page est en ligne</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-pseudo" class="form-label">Pseudo / Nom</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" id="form-pseudo" name="pseudo" class="form-input" placeholder="tonpseudo"
+                                required autocomplete="nickname">
+                        </div>
+                        <span class="form-hint">→ gzdata.xyz/<strong id="pseudo-preview">tonpseudo</strong></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-discord" class="form-label">Discord</label>
+                        <div class="input-wrapper">
+                            <i class="fa-brands fa-discord input-icon"></i>
+                            <input type="text" id="form-discord" name="discord" class="form-input"
+                                placeholder="@username" required autocomplete="off">
+                        </div>
+                        <span class="form-hint">Pour te contacter après paiement</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-file" class="form-label">Ton fichier de page</label>
+                    <label for="form-file" class="file-drop" id="file-drop-zone">
+                        <div class="file-drop-inner" id="file-drop-inner">
+                            <i class="fa-solid fa-cloud-arrow-up file-drop-icon"></i>
+                            <span class="file-drop-text">Glisse ton fichier ici ou <u>clique pour choisir</u></span>
+                            <span class="file-drop-hint">.html, .zip, .css, .js acceptés — max 10 Mo</span>
+                        </div>
+                        <div class="file-selected" id="file-selected" style="display:none">
+                            <i class="fa-solid fa-file-code"></i>
+                            <span id="file-selected-name">fichier.html</span>
+                            <button type="button" class="file-remove" id="file-remove-btn"
+                                aria-label="Supprimer le fichier"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </label>
+                    <input type="file" id="form-file" name="file" accept=".html,.zip,.css,.js" style="display:none"
+                        required>
+                </div>
+
+                <div class="form-footer">
+                    <div class="price-badge">
+                        <i class="fa-solid fa-tag"></i>
+                        <span>Paiement unique — <strong>15€</strong></span>
+                    </div>
+                    <button type="submit" class="submit-btn" id="form-submit-btn">
+                        <span class="submit-btn-text">Envoyer ma demande</span>
+                        <i class="fa-solid fa-paper-plane submit-btn-icon"></i>
+                        <span class="submit-btn-shine"></span>
+                    </button>
+                </div>
+
+                <p class="form-message form-error" id="form-error-msg" aria-live="polite"></p>
+
+                <div class="form-success" id="form-success" aria-live="polite">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <p>Demande envoyée ! Contacte-nous sur <a href="https://discord.gg/gzdata" target="_blank"
+                            rel="noopener">Discord</a> pour finaliser le paiement.</p>
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 <strong>gzdata.xyz</strong> — Tous droits réservés &nbsp;·&nbsp;
+            <a href="https://discord.gg/gzdata" target="_blank" rel="noopener" class="footer-discord">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
+        </p>
+    </footer>
+
+    <script>
+        (() => {
+            const { createClient } = window.supabase;
+            const sb = createClient(
+                'https://yxotwzflyofldqwwqnjf.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4b3R3emZseW9mbGRxd3dxbmpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTYxOTMsImV4cCI6MjA5NjQzMjE5M30.p-w9wWQYAuBC-ABQkEs6oNzpDXA_IcrOBfFk4gyDxDQ'
+            );
+
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let W;
+            let H;
+            let particles = [];
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+
+            function createParticles() {
+                particles = [];
+                for (let i = 0; i < 100; i += 1) {
+                    particles.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        r: Math.random() * 1.5 + 0.3,
+                        dx: (Math.random() - 0.5) * 0.25,
+                        dy: (Math.random() - 0.5) * 0.25,
+                        alpha: Math.random() * 0.5 + 0.1,
+                        color: Math.random() > 0.7 ? '80,180,255' : '255,255,255'
+                    });
+                }
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach((particle) => {
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
+                    ctx.fill();
+                    particle.x += particle.dx;
+                    particle.y += particle.dy;
+
+                    if (particle.x < 0 || particle.x > W) {
+                        particle.dx *= -1;
+                    }
+
+                    if (particle.y < 0 || particle.y > H) {
+                        particle.dy *= -1;
+                    }
+                });
+
+                requestAnimationFrame(drawParticles);
+            }
+
+            resize();
+            createParticles();
+            drawParticles();
+            window.addEventListener('resize', () => {
+                resize();
+                createParticles();
+            });
+
+            document.querySelectorAll('.card').forEach((card) => {
+                card.addEventListener('mousemove', (event) => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+                    card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+                });
+            });
+
+            document.addEventListener('mousemove', (event) => {
+                const mx = event.clientX / window.innerWidth - 0.5;
+                const my = event.clientY / window.innerHeight - 0.5;
+
+                document.querySelectorAll('.glow-orb').forEach((orb, index) => {
+                    const strength = (index + 1) * 20;
+                    orb.style.transform = `translate(${mx * strength}px, ${my * strength}px)`;
+                });
+            });
+
+            const form = document.getElementById('join-form');
+            const pseudoInput = document.getElementById('form-pseudo');
+            const discordInput = document.getElementById('form-discord');
+            const pseudoPreview = document.getElementById('pseudo-preview');
+            const fileInput = document.getElementById('form-file');
+            const fileDropZone = document.getElementById('file-drop-zone');
+            const fileDropInner = document.getElementById('file-drop-inner');
+            const fileSelected = document.getElementById('file-selected');
+            const fileSelectedName = document.getElementById('file-selected-name');
+            const fileRemoveBtn = document.getElementById('file-remove-btn');
+            const successMsg = document.getElementById('form-success');
+            const errorMsg = document.getElementById('form-error-msg');
+            const submitBtn = document.getElementById('form-submit-btn');
+            const submitBtnText = submitBtn.querySelector('.submit-btn-text');
+            const maxFileSize = 10 * 1024 * 1024;
+            const acceptedExtensions = ['html', 'zip', 'css', 'js'];
+
+            pseudoInput.addEventListener('input', () => {
+                pseudoPreview.textContent = pseudoInput.value.trim() || 'tonpseudo';
+            });
+
+            function showFormError(message) {
+                errorMsg.textContent = message;
+                errorMsg.classList.add('visible');
+            }
+
+            function clearFormError() {
+                errorMsg.textContent = '';
+                errorMsg.classList.remove('visible');
+            }
+
+            function showFile(file) {
+                fileSelectedName.textContent = file.name;
+                fileDropInner.style.display = 'none';
+                fileSelected.style.display = 'flex';
+                fileDropZone.classList.add('has-file');
+            }
+
+            function clearFile() {
+                fileInput.value = '';
+                fileDropInner.style.display = '';
+                fileSelected.style.display = 'none';
+                fileSelectedName.textContent = '';
+                fileDropZone.classList.remove('has-file');
+            }
+
+            function validateSelectedFile(file) {
+                if (!file) {
+                    return 'Sélectionne un fichier avant d’envoyer le formulaire.';
+                }
+
+                const extension = file.name.split('.').pop()?.toLowerCase() || '';
+
+                if (!acceptedExtensions.includes(extension)) {
+                    return 'Format non autorisé. Utilise un fichier .html, .zip, .css ou .js.';
+                }
+
+                if (file.size > maxFileSize) {
+                    return 'Le fichier dépasse 10 Mo. Choisis un fichier plus léger.';
+                }
+
+                return '';
+            }
+
+            function assignFile(file) {
+                const validationMessage = validateSelectedFile(file);
+
+                if (validationMessage) {
+                    clearFile();
+                    showFormError(validationMessage);
+                    fileDropZone.classList.add('drop-error');
+                    setTimeout(() => fileDropZone.classList.remove('drop-error'), 600);
+                    return false;
+                }
+
+                clearFormError();
+                showFile(file);
+                return true;
+            }
+
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files?.[0];
+                if (file) {
+                    assignFile(file);
+                } else {
+                    clearFile();
+                }
+            });
+
+            fileRemoveBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                clearFile();
+                clearFormError();
+            });
+
+            fileDropZone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                fileDropZone.classList.add('drag-over');
+            });
+
+            fileDropZone.addEventListener('dragleave', () => {
+                fileDropZone.classList.remove('drag-over');
+            });
+
+            fileDropZone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                fileDropZone.classList.remove('drag-over');
+
+                const file = event.dataTransfer.files?.[0];
+                if (!file) {
+                    return;
+                }
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                assignFile(file);
+            });
+
+            function markInputError(field) {
+                field.classList.add('input-error');
+                setTimeout(() => field.classList.remove('input-error'), 600);
+            }
+
+            function setSubmittingState(isSubmitting) {
+                submitBtn.disabled = isSubmitting;
+                submitBtnText.textContent = isSubmitting ? 'Envoi en cours…' : 'Envoyer ma demande';
+            }
+
+            function sanitizePseudo(value) {
+                return value
+                    .trim()
+                    .toLowerCase()
+                    .replace(/[^a-z0-9_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '') || 'profil';
+            }
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                clearFormError();
+
+                const pseudo = pseudoInput.value.trim();
+                const discord = discordInput.value.trim();
+                const file = fileInput.files?.[0];
+                const fileValidationMessage = validateSelectedFile(file);
+
+                let isValid = true;
+
+                if (!pseudo) {
+                    markInputError(pseudoInput);
+                    isValid = false;
+                }
+
+                if (!discord) {
+                    markInputError(discordInput);
+                    isValid = false;
+                }
+
+                if (fileValidationMessage) {
+                    fileDropZone.classList.add('drop-error');
+                    setTimeout(() => fileDropZone.classList.remove('drop-error'), 600);
+                    showFormError(fileValidationMessage);
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                setSubmittingState(true);
+
+                try {
+                    const safePseudo = sanitizePseudo(pseudo);
+                    const safeFileName = file.name.replace(/\s+/g, '-');
+                    const storagePath = `${safePseudo}/${Date.now()}-${safeFileName}`;
+
+                    const { error: storageError } = await sb.storage
+                        .from('pages')
+                        .upload(storagePath, file, {
+                            upsert: false,
+                            cacheControl: '3600'
+                        });
+
+                    if (storageError) {
+                        throw storageError;
+                    }
+
+                    const { data: publicUrlData } = sb.storage.from('pages').getPublicUrl(storagePath);
+                    const fileUrl = publicUrlData?.publicUrl;
+
+                    const { error: dbError } = await sb
+                        .from('demandes')
+                        .insert([{
+                            pseudo,
+                            discord,
+                            file_url: fileUrl,
+                            file_name: file.name,
+                            status: 'en_attente',
+                            created_at: new Date().toISOString()
+                        }]);
+
+                    if (dbError) {
+                        throw dbError;
+                    }
+
+                    form.reset();
+                    pseudoPreview.textContent = 'tonpseudo';
+                    clearFile();
+                    successMsg.classList.add('visible');
+                    clearFormError();
+                    form.querySelectorAll('.form-group, .form-steps, .form-row').forEach((group) => {
+                        group.style.opacity = '0.25';
+                    });
+                    submitBtn.style.display = 'none';
+                    document.querySelector('.price-badge').style.display = 'none';
+                    successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } catch (error) {
+                    setSubmittingState(false);
+                    showFormError(`Échec de l’envoi : ${error.message || 'réessaie plus tard.'}`);
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

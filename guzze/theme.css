@@ -1,0 +1,7 @@
+/* guzze — Neon Green Cyberpunk theme */
+:root {
+    --accent:     #22c55e;
+    --accent-rgb: 34, 197, 94;
+    --accent-glow: rgba(34, 197, 94, .45);
+    --bg: #05080a;
+}
