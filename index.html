@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DZ LARPER</title>
+  <link rel="stylesheet" href="index.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    .discord-join-btn {
+      background: #5865f2 !important;
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3) !important;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+    }
+
+    .discord-join-btn:hover {
+      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.55) !important;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Ciel étoilé dynamique du Sahara -->
+  <div class="stars-container">
+    <div class="stars"></div>
+  </div>
+
+  <div class="dashboard-wrapper">
+    <div class="dz-dashboard">
+
+      <!-- Colonne Gauche -->
+      <aside class="hero-aside">
+        <!-- En-tête DZ -->
+        <div class="console-header">
+          <svg class="brand-logo-svg" viewBox="0 0 100 100" width="52" height="52">
+            <path d="M 50,0 A 50,50 0 0,0 50,100 Z" fill="#10b981" />
+            <path d="M 50,0 A 50,50 0 0,1 50,100 Z" fill="#ffffff" />
+            <circle cx="50" cy="50" r="50" fill="none" stroke="#10b981" stroke-width="2" />
+            <path d="M 56,33 A 18,18 0 1,0 56,67 A 15,15 0 1,1 56,33 Z" fill="#ef4444" />
+            <polygon points="58,45 61,48 65,47 62,50 64,54 60,52 57,55 58,51 55,48 59,48" fill="#ef4444" />
+          </svg>
+          <div class="brand-meta">
+            <h1 class="brand-name">DZ <span>LARPER</span></h1>
+            <span
+              style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-green); letter-spacing: 0.15em; font-weight: 700;">CONÇU
+              PAR GUZZE 👑</span>
+          </div>
+        </div>
+
+        <!-- Guzze Creator Card -->
+        <div class="cyber-card"
+          style="padding: 1.25rem; text-align: center; border-color: rgba(16, 185, 129, 0.35); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(239, 68, 68, 0.1)); position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15); margin-bottom: 0.5rem;">
+          <div
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-green), var(--accent-red));">
+          </div>
+          <span
+            style="font-family: var(--font-title); font-weight: 800; font-size: 1.15rem; color: #ffffff; letter-spacing: 0.08em; display: block; margin-bottom: 0.25rem; text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);">GZ
+            DATA</span>
+          <span
+            style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-red); letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;">DEVIENS
+            UN VRAI LARP !</span>
+        </div>
+
+        <!-- Célébration CAN 2019 -->
+        <div class="dz-hall-of-fame-card">
+          <div class="hof-image-wrapper" style="height: auto;">
+            <img src="./media-1776154119.jpg" alt="Algérie CAN 2019" class="hof-img"
+              style="display: block; width: 100%; height: auto;">
+          </div>
+        </div>
+
+        <!-- Bouton Discord GZ DATA -->
+        <div class="cyber-card"
+          style="padding: 1rem; text-align: center; border-color: rgba(88, 101, 242, 0.35); background: rgba(88, 101, 242, 0.08); overflow: hidden;">
+          <div
+            style="border-radius: 6px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(88, 101, 242, 0.25);">
+            <img src="./bannière.png" alt="Gz Data Banner" style="width: 100%; display: block; height: auto;">
+          </div>
+          <a href="https://discord.gg/gzdata" target="_blank" class="discord-join-btn">
+            Rejoindre le Discord
+          </a>
+        </div>
+      </aside>
+
+      <!-- Colonne Principale Droite -->
+      <main class="main-console">
+
+        <!-- Formulaire de Saisie Structuré -->
+        <section class="search-panel">
+          <form id="dz-person-form" onsubmit="triggerDZSubmit(event)">
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="input-prenom">Prénom</label>
+                <input type="text" id="input-prenom" placeholder="Ex: Samuel" autocomplete="off">
+              </div>
+              <div class="input-group">
+                <label for="input-nom">Nom de famille</label>
+                <input type="text" id="input-nom" placeholder="Ex: Dupont" autocomplete="off">
+              </div>
+              <div class="input-group">
+                <label for="input-email">Adresse E-mail</label>
+                <input type="email" id="input-email" placeholder="Ex: samuel@mail.com" autocomplete="off">
+              </div>
+              <div class="input-group">
+                <label for="input-phone">Numéro de Téléphone</label>
+                <input type="text" id="input-phone" placeholder="Ex: 0612345678" autocomplete="off">
+              </div>
+              <div class="input-group">
+                <label for="input-iban">Identifiant IBAN</label>
+                <input type="text" id="input-iban" placeholder="Ex: FR76..." autocomplete="off">
+              </div>
+              <div class="input-group full-width">
+                <label for="input-query">Recherche Globale (Adresse, pseudo, etc.)</label>
+                <input type="text" id="input-query" placeholder="Ex: 4 CITE DE L EGLISE" autocomplete="off">
+              </div>
+            </div>
+            <button type="submit" class="btn-glow">Je suis un gros flocko et j'ai besoin de guzze pour trouver des infos
+              !</button>
+          </form>
+        </section>
+
+        <!-- Panneau des Résultats -->
+        <section class="cyber-card result-panel">
+          <div class="card-header">
+            <h2>Résultats de la requête</h2>
+            <div class="header-actions">
+              <span class="card-tag" id="result-status">En attente</span>
+              <button onclick="toggleViewMode()" class="btn-small" id="btn-toggle-view" style="display: none;">Voir JSON
+                Brut</button>
+            </div>
+          </div>
+          <div class="result-viewport" id="result-container">
+            <div class="empty-state">
+              <p>Renseignez les informations de la personne ci-dessus pour envoyer la requête API.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pied de page -->
+        <footer class="console-footer">
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span>1, 2, 3 VIVA L'ALGÉRIE ! 🇩🇿 (On va gagner la CDM inshaAllah 🏆)</span>
+          </div>
+          <span class="system-status">DZ LARPER</span>
+        </footer>
+
+      </main>
+
+    </div>
+  </div>
+
+  <script>
+    let activeResult = null;
+    let rawJsonResponse = null;
+    let viewMode = 'profile'; // 'profile' ou 'json'
+
+    // Vérifier si l'environnement est local (fichier direct)
+    const isLocalFile = window.location.protocol === 'file:';
+
+    async function getMockData(payload) {
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const email = payload.email || '';
+      const nom = payload.nom_famille || '';
+      const query = payload.query || '';
+
+      if (email.includes('dupont') || nom.toLowerCase().includes('dupont') || query.toLowerCase().includes('dupont')) {
+        return [
+          {
+            entity: "Samuel Dupontlecours (Simulation)",
+            type: "Enregistrement",
+            confidence: 85,
+            sources: ["CAF (2024)", "ANTS (2026)"],
+            details: {
+              "Nom": "Dupontlecours",
+              "Prénom": "Samuel",
+              "Email": "samueldupont11@hotmail.ca",
+              "Naissance": "1982-01-11",
+              "Pays": "CA"
+            },
+            connections: [
+              { label: "Email", value: "samueldupont11@hotmail.ca" }
+            ]
+          }
+        ];
+      }
+      return [];
+    }
+
+    function toggleViewMode() {
+      if (!rawJsonResponse) return;
+
+      const btn = document.getElementById('btn-toggle-view');
+      if (viewMode === 'profile') {
+        viewMode = 'json';
+        btn.textContent = 'Voir Fiches';
+        renderRawJSON();
+      } else {
+        viewMode = 'profile';
+        btn.textContent = 'Voir JSON Brut';
+        renderFormattedProfiles(activeResult);
+      }
+    }
+
+    async function triggerDZSubmit(event) {
+      if (event) event.preventDefault();
+
+      const prenom = document.getElementById('input-prenom').value.trim();
+      const nom = document.getElementById('input-nom').value.trim();
+      const email = document.getElementById('input-email').value.trim();
+      const phone = document.getElementById('input-phone').value.trim();
+      const iban = document.getElementById('input-iban').value.trim();
+      const query = document.getElementById('input-query').value.trim();
+
+      if (!prenom && !nom && !email && !phone && !iban && !query) {
+        alert("Veuillez renseigner au moins un champ d'information avant d'envoyer.");
+        return;
+      }
+
+      const statusTag = document.getElementById('result-status');
+      const container = document.getElementById('result-container');
+      const toggleBtn = document.getElementById('btn-toggle-view');
+
+      statusTag.textContent = "Requête...";
+      toggleBtn.style.display = "none";
+      container.innerHTML = `<div class="cyber-loader"></div>`;
+
+      const requestPayload = {
+        prenom: prenom,
+        nom_famille: nom,
+        email: email,
+        telephone: phone,
+        iban: iban,
+        query: query
+      };
+
+      try {
+        let responseData = null;
+
+        if (isLocalFile) {
+          console.log("Mode simulation local détecté.");
+          const mockRes = await getMockData(requestPayload);
+          rawJsonResponse = mockRes ? { status: 200, data: mockRes } : { status: 200, data: [] };
+          responseData = mockRes;
+        } else {
+          const response = await fetch('/.netlify/functions/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestPayload)
+          });
+
+          if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+
+          const resJson = await response.json();
+          rawJsonResponse = resJson;
+          responseData = resJson.data;
+        }
+
+        if (!responseData || (Array.isArray(responseData) && responseData.length === 0)) {
+          statusTag.textContent = "Aucun résultat";
+          container.innerHTML = `
+            <div class="empty-state">
+              <p>Aucune correspondance trouvée pour cette recherche.</p>
+            </div>
+          `;
+          activeResult = null;
+          return;
+        }
+
+        activeResult = responseData;
+        statusTag.textContent = "Succès";
+        toggleBtn.style.display = "inline-block";
+        viewMode = 'profile';
+        toggleBtn.textContent = 'Voir JSON Brut';
+
+        renderFormattedProfiles(responseData);
+
+      } catch (err) {
+        console.error(err);
+        statusTag.textContent = "Erreur";
+        container.innerHTML = `
+          <div class="error-state">
+            <p>Une erreur est survenue lors de la recherche : ${escapeHTML(err.message)}</p>
+          </div>
+        `;
+        activeResult = null;
+        rawJsonResponse = null;
+      }
+    }
+
+    function renderFormattedProfiles(dataList) {
+      const container = document.getElementById('result-container');
+
+      if (!Array.isArray(dataList)) {
+        dataList = [dataList];
+      }
+
+      let html = `<div class="profiles-list-header">${dataList.length} profil(s) trouvé(s)</div>`;
+
+      dataList.forEach((data) => {
+        let detailsHTML = '<ul>';
+        for (const [key, value] of Object.entries(data.details)) {
+          let valueHTML = '';
+          const cleanVal = String(value).trim();
+
+          // Liens d'exploration interactifs
+          if (key === 'Email') {
+            valueHTML = `<a href="#" class="explore-link" onclick="quickSearch('email', '${escapeJS(cleanVal)}')">${escapeHTML(cleanVal)}</a>`;
+          } else if (key === 'Téléphone' || key === 'Mobile') {
+            valueHTML = `<a href="#" class="explore-link" onclick="quickSearch('phone', '${escapeJS(cleanVal)}')">${escapeHTML(cleanVal)}</a>`;
+          } else if (key === 'Adresse') {
+            valueHTML = `<a href="#" class="explore-link" onclick="quickSearch('address', '${escapeJS(cleanVal)}')">${escapeHTML(cleanVal)}</a>`;
+          } else if (key === 'IBAN') {
+            valueHTML = `<a href="#" class="explore-link" onclick="quickSearch('iban', '${escapeJS(cleanVal)}')">${escapeHTML(cleanVal)}</a>`;
+          } else {
+            valueHTML = escapeHTML(cleanVal);
+          }
+
+          detailsHTML += `<li><strong>${escapeHTML(key)} :</strong> <span>${valueHTML}</span></li>`;
+        }
+        detailsHTML += '</ul>';
+
+        // Mappage des sources en tags
+        let sourcesHTML = '';
+        if (Array.isArray(data.sources)) {
+          data.sources.forEach(src => {
+            sourcesHTML += `<span class="source-tag">${escapeHTML(src)}</span>`;
+          });
+        }
+
+        html += `
+          <div class="profile-card-item">
+            <div class="profile-header-main">
+              <div>
+                <h3>${escapeHTML(data.entity)}</h3>
+                <div class="sources-tags-container">${sourcesHTML}</div>
+              </div>
+              <span class="badge-type">${escapeHTML(data.type)}</span>
+            </div>
+
+            <div class="confidence-display">
+              <div class="conf-text">Indice de confiance : ${data.confidence}%</div>
+              <div class="conf-bar-bg">
+                <div class="conf-bar-fill" style="width: ${data.confidence}%"></div>
+              </div>
+            </div>
+
+            <div class="profile-details-list">
+              ${detailsHTML}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Lance une recherche instantanée sur un critère précis pour trouver un foyer ou des connexions
+    function quickSearch(type, value) {
+      // Réinitialiser tous les champs
+      document.getElementById('input-prenom').value = '';
+      document.getElementById('input-nom').value = '';
+      document.getElementById('input-email').value = '';
+      document.getElementById('input-phone').value = '';
+      document.getElementById('input-iban').value = '';
+      document.getElementById('input-query').value = '';
+
+      if (type === 'email') {
+        document.getElementById('input-email').value = value;
+      } else if (type === 'phone') {
+        document.getElementById('input-phone').value = value;
+      } else if (type === 'iban') {
+        document.getElementById('input-iban').value = value;
+      } else if (type === 'address') {
+        document.getElementById('input-query').value = value;
+      }
+
+      // Soumettre directement le formulaire
+      triggerDZSubmit();
+    }
+
+    function renderRawJSON() {
+      const container = document.getElementById('result-container');
+      container.innerHTML = `
+        <pre class="json-code"><code>${escapeHTML(JSON.stringify(rawJsonResponse, null, 2))}</code></pre>
+      `;
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g,
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+
+    function escapeJS(str) {
+      if (!str) return '';
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+
+  </script>
+
+</body>
+
+</html>
