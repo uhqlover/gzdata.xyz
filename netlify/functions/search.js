@@ -1,20 +1,71 @@
-// Fonction utilitaire pour effectuer des requêtes fetch avec tentatives (retries) et délai d'attente (timeout)
+const https = require('https');
+
+// Fonction utilitaire pour effectuer des requêtes HTTP/HTTPS compatibles avec toutes les versions de Node.js
+function httpsRequest(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    const parsedUrl = new URL(url);
+    const reqOptions = {
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || 443,
+      path: parsedUrl.pathname + parsedUrl.search,
+      method: options.method || 'GET',
+      headers: options.headers || {},
+      timeout: options.timeout || 2500
+    };
+
+    const req = https.request(reqOptions, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        resolve({
+          status: res.statusCode,
+          statusText: res.statusMessage,
+          headers: res.headers,
+          text: async () => data,
+          json: async () => {
+            try {
+              return JSON.parse(data);
+            } catch (e) {
+              throw new Error("JSON invalide");
+            }
+          }
+        });
+      });
+    });
+
+    req.on('timeout', () => {
+      req.destroy();
+      const timeoutErr = new Error('Timeout');
+      timeoutErr.name = 'TimeoutError';
+      reject(timeoutErr);
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+
+    if (options.body) {
+      req.write(options.body);
+    }
+    req.end();
+  });
+}
+
+// Fonction utilitaire pour effectuer des requêtes avec tentatives (retries) et délai d'attente (timeout)
 async function fetchWithRetry(url, options = {}, retries = 3, delay = 200) {
   const timeout = options.timeout || 2500; // 2.5 secondes par défaut
   
   for (let attempt = 1; attempt <= retries; attempt++) {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-    
     try {
       const fetchOptions = {
         ...options,
-        signal: controller.signal
+        timeout: timeout
       };
       
       console.log(`[Proxy GZ - Tentative ${attempt}/${retries}] Envoi vers : ${url}`);
-      const res = await fetch(url, fetchOptions);
-      clearTimeout(id);
+      const res = await httpsRequest(url, fetchOptions);
       
       // On retente pour les statuts temporaires (429 ou >= 500)
       if (res.status === 429 || res.status >= 500) {
@@ -28,8 +79,7 @@ async function fetchWithRetry(url, options = {}, retries = 3, delay = 200) {
       
       return res;
     } catch (err) {
-      clearTimeout(id);
-      const isTimeout = err.name === 'AbortError';
+      const isTimeout = err.name === 'TimeoutError' || err.message === 'Timeout';
       console.error(`[Proxy GZ - Tentative ${attempt}/${retries}] Échec : ${isTimeout ? 'Délai d\'attente dépassé (Timeout)' : err.message}`);
       
       if (attempt === retries) {
