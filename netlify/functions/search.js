@@ -1,3 +1,55 @@
+// Fonction utilitaire pour effectuer des requêtes fetch avec tentatives (retries) et délai d'attente (timeout)
+async function fetchWithRetry(url, options = {}, retries = 3, delay = 200) {
+  const timeout = options.timeout || 2500; // 2.5 secondes par défaut
+  
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+      const fetchOptions = {
+        ...options,
+        signal: controller.signal
+      };
+      
+      console.log(`[Proxy GZ - Tentative ${attempt}/${retries}] Envoi vers : ${url}`);
+      const res = await fetch(url, fetchOptions);
+      clearTimeout(id);
+      
+      // On retente pour les statuts temporaires (429 ou >= 500)
+      if (res.status === 429 || res.status >= 500) {
+        console.warn(`[Proxy GZ - Tentative ${attempt}/${retries}] Réponse API instable (Status: ${res.status})`);
+        if (attempt === retries) {
+          return res; // Dernière tentative, on renvoie la réponse d'erreur
+        }
+        await new Promise(resolve => setTimeout(resolve, delay * attempt)); // Espacement progressif (backoff)
+        continue;
+      }
+      
+      return res;
+    } catch (err) {
+      clearTimeout(id);
+      const isTimeout = err.name === 'AbortError';
+      console.error(`[Proxy GZ - Tentative ${attempt}/${retries}] Échec : ${isTimeout ? 'Délai d\'attente dépassé (Timeout)' : err.message}`);
+      
+      if (attempt === retries) {
+        throw err; // Dernière tentative, on propage l'erreur
+      }
+      await new Promise(resolve => setTimeout(resolve, delay * attempt));
+    }
+  }
+}
+
+// Fonction pour analyser en toute sécurité la réponse JSON de l'API
+async function safeJsonParse(response) {
+  try {
+    const text = await response.text();
+    return JSON.parse(text);
+  } catch (e) {
+    console.error("[Proxy GZ] Échec de l'analyse JSON sur la réponse API:", e.message);
+    return null;
+  }
+}
 
 exports.handler = async function (event, context) {
   const headers = {
@@ -44,30 +96,30 @@ exports.handler = async function (event, context) {
 
     // Routage intelligent des critères structurés
     if (emailInput) {
-      const res = await fetch(`${BASE_URL}/lookup/email/${encodeURIComponent(emailInput)}`, {
+      const res = await fetchWithRetry(`${BASE_URL}/lookup/email/${encodeURIComponent(emailInput)}`, {
         method: 'GET',
         headers: commonHeaders
       });
       httpStatus = res.status;
-      responseData = await res.json();
+      responseData = await safeJsonParse(res);
     } else if (phoneInput) {
       const cleanPhone = phoneInput.replace(/[\s.-]/g, '');
-      const res = await fetch(`${BASE_URL}/lookup/phone/${encodeURIComponent(cleanPhone)}`, {
+      const res = await fetchWithRetry(`${BASE_URL}/lookup/phone/${encodeURIComponent(cleanPhone)}`, {
         method: 'GET',
         headers: commonHeaders
       });
       httpStatus = res.status;
-      responseData = await res.json();
+      responseData = await safeJsonParse(res);
     } else if (ibanInput) {
       const cleanIban = ibanInput.replace(/\s/g, '');
-      const res = await fetch(`${BASE_URL}/lookup/iban/${encodeURIComponent(cleanIban)}`, {
+      const res = await fetchWithRetry(`${BASE_URL}/lookup/iban/${encodeURIComponent(cleanIban)}`, {
         method: 'GET',
         headers: commonHeaders
       });
       httpStatus = res.status;
-      responseData = await res.json();
+      responseData = await safeJsonParse(res);
     } else if (adresseInput) {
-      const res = await fetch(`${BASE_URL}/search`, {
+      const res = await fetchWithRetry(`${BASE_URL}/search`, {
         method: 'POST',
         headers: commonHeaders,
         body: JSON.stringify({
@@ -77,7 +129,7 @@ exports.handler = async function (event, context) {
         })
       });
       httpStatus = res.status;
-      responseData = await res.json();
+      responseData = await safeJsonParse(res);
     } else if (prenomInput || nomFamilleInput) {
       const searchBody = {
         flexible: true,
@@ -86,13 +138,13 @@ exports.handler = async function (event, context) {
       if (prenomInput) searchBody.prenom = prenomInput;
       if (nomFamilleInput) searchBody.nom_famille = nomFamilleInput;
 
-      const res = await fetch(`${BASE_URL}/search`, {
+      const res = await fetchWithRetry(`${BASE_URL}/search`, {
         method: 'POST',
         headers: commonHeaders,
         body: JSON.stringify(searchBody)
       });
       httpStatus = res.status;
-      responseData = await res.json();
+      responseData = await safeJsonParse(res);
     } else if (query) {
       // Routage historique (Query unique)
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -101,30 +153,30 @@ exports.handler = async function (event, context) {
       const addressRegex = /(?:\d+\s+)?(?:RUE|AVENUE|CITE|CITÉ|BOULEVARD|ROUTE|CHEMIN|IMPASSE|ALLÉE|ALLEE|SQUARE|PLACE|VILLA|RESIDENCE|RÉSIDENCE|IMP\.|AV\.|BD\.|ALL\.)/i;
 
       if (emailRegex.test(query)) {
-        const res = await fetch(`${BASE_URL}/lookup/email/${encodeURIComponent(query)}`, {
+        const res = await fetchWithRetry(`${BASE_URL}/lookup/email/${encodeURIComponent(query)}`, {
           method: 'GET',
           headers: commonHeaders
         });
         httpStatus = res.status;
-        responseData = await res.json();
+        responseData = await safeJsonParse(res);
       } else if (phoneRegex.test(query)) {
         const cleanPhone = query.replace(/[\s.-]/g, '');
-        const res = await fetch(`${BASE_URL}/lookup/phone/${encodeURIComponent(cleanPhone)}`, {
+        const res = await fetchWithRetry(`${BASE_URL}/lookup/phone/${encodeURIComponent(cleanPhone)}`, {
           method: 'GET',
           headers: commonHeaders
         });
         httpStatus = res.status;
-        responseData = await res.json();
+        responseData = await safeJsonParse(res);
       } else if (ibanRegex.test(query.replace(/\s/g, ''))) {
         const cleanIban = query.replace(/\s/g, '');
-        const res = await fetch(`${BASE_URL}/lookup/iban/${encodeURIComponent(cleanIban)}`, {
+        const res = await fetchWithRetry(`${BASE_URL}/lookup/iban/${encodeURIComponent(cleanIban)}`, {
           method: 'GET',
           headers: commonHeaders
         });
         httpStatus = res.status;
-        responseData = await res.json();
+        responseData = await safeJsonParse(res);
       } else if (addressRegex.test(query)) {
-        const res = await fetch(`${BASE_URL}/search`, {
+        const res = await fetchWithRetry(`${BASE_URL}/search`, {
           method: 'POST',
           headers: commonHeaders,
           body: JSON.stringify({
@@ -134,7 +186,7 @@ exports.handler = async function (event, context) {
           })
         });
         httpStatus = res.status;
-        responseData = await res.json();
+        responseData = await safeJsonParse(res);
       } else {
         const parts = query.split(/\s+/);
         const searchBody = {
@@ -149,19 +201,47 @@ exports.handler = async function (event, context) {
           searchBody.nom_famille = query;
         }
 
-        const res = await fetch(`${BASE_URL}/search`, {
+        const res = await fetchWithRetry(`${BASE_URL}/search`, {
           method: 'POST',
           headers: commonHeaders,
           body: JSON.stringify(searchBody)
         });
         httpStatus = res.status;
-        responseData = await res.json();
+        responseData = await safeJsonParse(res);
       }
     } else {
       return {
         statusCode: 400,
         headers,
         body: JSON.stringify({ error: 'Aucun paramètre de recherche fourni.' }),
+      };
+    }
+
+    // Validation de la réponse HTTP de l'API
+    if (httpStatus < 200 || httpStatus >= 300) {
+      let errorMsg = 'Erreur lors du requêtage GZ Data.';
+      if (responseData && responseData.error) {
+        errorMsg = responseData.error;
+      } else if (responseData && responseData.message) {
+        errorMsg = responseData.message;
+      } else if (httpStatus === 429) {
+        errorMsg = 'Trop de requêtes. Veuillez réessayer dans quelques instants.';
+      } else if (httpStatus === 401 || httpStatus === 403) {
+        errorMsg = 'Erreur d\'authentification de l\'API. Clé invalide ou expirée.';
+      }
+      return {
+        statusCode: httpStatus,
+        headers,
+        body: JSON.stringify({ error: errorMsg })
+      };
+    }
+
+    // Vérification de la présence des données
+    if (!responseData) {
+      return {
+        statusCode: 502,
+        headers,
+        body: JSON.stringify({ error: 'La réponse du serveur de données GZ est invalide ou vide.' })
       };
     }
 

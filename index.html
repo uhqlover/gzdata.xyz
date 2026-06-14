@@ -128,7 +128,7 @@
                 <input type="text" id="input-query" placeholder="Ex: 4 CITE DE L EGLISE" autocomplete="off">
               </div>
             </div>
-            <button type="submit" class="btn-glow">Je suis un gros flocko et j'ai besoin de guzze pour trouver des infos
+            <button type="submit" class="btn-glow">Je suis un gros flocko et j'ai besoin de Guzze pour trouver des infos
               !</button>
           </form>
         </section>
@@ -251,20 +251,43 @@
 
       try {
         let responseData = null;
+        let response = null;
+        let usedMock = false;
 
-        if (isLocalFile) {
-          console.log("Mode simulation local détecté.");
-          const mockRes = await getMockData(requestPayload);
-          rawJsonResponse = mockRes ? { status: 200, data: mockRes } : { status: 200, data: [] };
-          responseData = mockRes;
-        } else {
-          const response = await fetch('/.netlify/functions/search', {
+        const apiTarget = isLocalFile ? 'http://localhost:3000/api/search' : '/.netlify/functions/search';
+
+        try {
+          response = await fetch(apiTarget, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestPayload)
           });
+        } catch (fetchErr) {
+          // Si on est en fichier local et que le serveur local n'est pas démarré, on bascule sur la simulation
+          if (isLocalFile) {
+            console.log("Serveur local injoignable, bascule sur les données simulées.");
+            const mockRes = await getMockData(requestPayload);
+            rawJsonResponse = mockRes ? { status: 200, data: mockRes } : { status: 200, data: [] };
+            responseData = mockRes;
+            usedMock = true;
+          } else {
+            throw fetchErr;
+          }
+        }
 
-          if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+        if (!usedMock && response) {
+          if (!response.ok) {
+            let errorMsg = `Erreur HTTP: ${response.status}`;
+            try {
+              const errorJson = await response.json();
+              if (errorJson && errorJson.error) {
+                errorMsg = errorJson.error;
+              }
+            } catch (e) {
+              // Non JSON ou erreur de lecture
+            }
+            throw new Error(errorMsg);
+          }
 
           const resJson = await response.json();
           rawJsonResponse = resJson;
