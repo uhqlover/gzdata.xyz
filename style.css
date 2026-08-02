@@ -510,11 +510,26 @@ button {
 
 .card-image-wrapper {
     width: 100%;
-    height: 180px;
+    height: 220px;
     border-radius: var(--radius-md);
     overflow: hidden;
     margin-bottom: 1.2rem;
     position: relative;
+    background: rgba(15, 18, 30, 0.6);
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease, filter 0.3s ease;
+    display: block;
+}
+
+.product-card:hover .card-img {
+    transform: scale(1.08);
+    filter: brightness(1.05);
 }
 
 .card-visual {
